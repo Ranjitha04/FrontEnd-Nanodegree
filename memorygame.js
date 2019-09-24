@@ -1,4 +1,3 @@
-
 document.getElementById("zero").addEventListener("click", function () { changeImage("zero", 0)});
 document.getElementById("one").addEventListener("click", function () { changeImage("one", 1)});
 document.getElementById("two").addEventListener("click", function () { changeImage("two", 2)});
@@ -16,36 +15,39 @@ document.getElementById("thirteen").addEventListener("click", function () { chan
 document.getElementById("fourteen").addEventListener("click", function () { changeImage("fourteen", 14)});
 document.getElementById("fifteen").addEventListener("click", function () { changeImage("fifteen", 15)});
 
-let fruits = ["apple.jpg","orange.jpg","papaya.jpg","apple.jpg","pineapple.jpg",
-    "guava.jpg","banana.jpg","papaya.jpg","orange.jpg","kiwi.jpg","grapes.jpg","pineapple.jpg",
-    "banana.jpg","guava.jpg","kiwi.jpg","grapes.jpg"];
+let fruits = ["apple.jpg","orange.jpg","papaya.jpg","apple.jpg","pineapple.jpg","guava.jpg",
+			  "banana.jpg","papaya.jpg","orange.jpg","kiwi.jpg","grapes.jpg","pineapple.jpg",
+              "banana.jpg","guava.jpg","kiwi.jpg","grapes.jpg"];
+	
+let ids = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight",
+           "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen"];
+    
 let count =0;
 let firstId;
 let first, second;
-let successMatchCount = 0;
 
-
-function shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
-
-    while (currentIndex !== 0) {
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex -= 1;
-        temporaryValue = array[currentIndex];
-        array[currentIndex] = array[randomIndex];
-        array[randomIndex] = temporaryValue;
+//Function to shuffle array.
+let shuffleFruits = (array) => {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
     }
-
-    return array;
+	return array;
 }
 
-let shuffleFruits = shuffle(fruits);
-
-function shuffleArray() {
-    document.location.reload();
-    shuffleFruits();
+/*
+	Function to reset game.
+*/
+function resetGame() {
+	for (let i = 0; i < ids.length; i++) {
+        document.getElementById(ids[i]).src = "blue.jpg";
+    }
+    fruits = shuffleFruits(fruits);
 }
 
+/*
+	Function that carries image flipping logic.
+*/	
 async function changeImage(idValue, index) {
     
     if (document.getElementById(idValue).getAttribute("src") === "blue.jpg") {
@@ -68,6 +70,12 @@ async function changeImage(idValue, index) {
     
 }
 
+ 
+/*
+	Sleep function makes second image clicked to be visible, 
+	otherwise flipping happens so fast that user will not 
+	recognize second image clicked.
+*/
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
